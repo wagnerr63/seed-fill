@@ -22,22 +22,23 @@ int main(int argc, char *argv[]) {
   PilhaGenerica p1;
 	inicializa_pilha( &p1, 20, sizeof( Ponto ) );
 
-  do
+
+  int valor;
+  Ponto coord;
+
+  printf("Digite o valor: ");
+  scanf("%d", &valor);
+
+  printf("Digite as coordenadas (x, y): ");
+  scanf("%d%d", &coord.x, &coord.y);
+  
+  empilha(&p1, &coord);
+
+  while (pilha_vazia(p1)==0)
   {
-    int x, y, valor;
-
-    printf("Digite o valor: ");
-		scanf("%d", &valor);
-
-    printf("Digite as coordenadas (x, y): ");
-		scanf("%d%d", &x, &y);
-
+    desempilha();
+  }
     
-
-    printf("Deseja continuar modificando a matriz (s/n)? ");
-		scanf(" %c", &resp);
-		system("CLS");
-  } while (resp == 's');
 
   desaloca_matriz( &m );
   desaloca_pilha( &p1 );
