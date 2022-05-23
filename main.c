@@ -50,7 +50,9 @@ void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos) {
 }
 
 void cria_novo_arquivo_matriz(Matriz m) {
-  
+    FILE *f = fopen("saida.txt", "w");
+    // [TODO] Escrever no arquivo a nova matriz
+    fclose(f);
 }
 
 int main(int argc, char *argv[]) {
@@ -107,6 +109,7 @@ int main(int argc, char *argv[]) {
   }
   
   mostra_matriz( m );
+  cria_novo_arquivo_matriz(m);
     
   desaloca_matriz( &m );
   desaloca_pilha( &p1 );
