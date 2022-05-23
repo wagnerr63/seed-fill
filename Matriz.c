@@ -16,6 +16,7 @@ void inicializa_matriz( Matriz *p, int l, int c ){
 
 void mostra_matriz( Matriz x ){
 	printf("Dados da Matriz (%dx%d):\n", x.lin, x.col);
+    printf("\n");
 	int i, j;
 	for( i = 0 ; i < x.lin ; i++ ){
 		for( j = 0 ; j < x.col ; j++ )
@@ -43,7 +44,7 @@ int set_valor( Matriz *p, int i, int j, int valor ){
 int carrega_arquivo( char *nome, Matriz *p ){
 	FILE *f = fopen( nome, "rt" );
 	if( f == NULL )
-		return 0; // Arquivo não existe!
+		return 0; // Arquivo nï¿½o existe!
 	
 	int lin, col, i, j, valor;
 	fscanf( f, "%d %d", &lin, &col);

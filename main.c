@@ -52,6 +52,16 @@ void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos, Matriz m) {
 void cria_novo_arquivo_matriz(Matriz m) {
     FILE *f = fopen("saida.txt", "w");
     // [TODO] Escrever no arquivo a nova matriz
+    
+    fprintf(f, "%4d %4d\n", m.lin, m.col);
+    int i, j;
+    for( i = 0 ; i < m.lin ; i++ ){
+      for( j = 0 ; j < m.col ; j++ )
+        fprintf(f, "%4d ", m.dados[i][j]);
+        fprintf(f, "\n");
+    }
+    fprintf(f, "\n");
+
     fclose(f);
 }
 
