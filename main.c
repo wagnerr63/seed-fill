@@ -12,7 +12,7 @@ void mostra_ponto( void *x ){
 	printf("(%.2f, %.2f)\n", p->x, p->y);
 }
 
-void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos) {
+void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos, Matriz m) {
   int i ;
 
   // esquerda
@@ -32,7 +32,7 @@ void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos) {
   }
 
   // direita
-  if (p.y+1 <= 5) { // [TODO] Buscar o valor dinamico da matriz
+  if (p.y+1 <= m.col) {
     Ponto p3;
     p3.x = p.x;
     p3.y = p.y+1;
@@ -40,7 +40,7 @@ void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos) {
   }
 
   // baixo
-  if (p.x+1 <= 6) { // [TODO] Buscar o valor dinamico da matriz
+  if (p.x+1 <= m.lin) {
     Ponto p4;
     p4.x = p.x+1;
     p4.y = p.y;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
       
       PilhaGenerica pilha_vizinhos;
 	    inicializa_pilha( &pilha_vizinhos, 4, sizeof( Ponto ) );
-      busca_vizinhos(coord, &pilha_vizinhos);
+      busca_vizinhos(coord, &pilha_vizinhos, m);
 
       while (pilha_vazia(pilha_vizinhos)==0)
       {
