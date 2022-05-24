@@ -7,51 +7,27 @@ typedef struct{
 	float x, y;
 }Ponto;
 
-void mostra_ponto( void *x ){
-	Ponto *p = x;
-	printf("(%.2f, %.2f)\n", p->x, p->y);
+int valida_ponto( Ponto p, int l, int c ){
+  return p.x >=0 && p.x < l && p.y >=0 && p.y < c;
 }
 
-void busca_vizinhos(Ponto p, PilhaGenerica *pilha_vizinhos, Matriz m) {
-  int i ;
 
-  // esquerda
-  if (p.y-1 >= 0) {
+void busca_vizinhos(Ponto p, PilhaGenerica *pilha_principal, Matriz m, int cor_orig) {
+  int i;
+  int dx[] = {0, -1, 0, 1}, dy[] = {-1, 0, 1, 0};
+
+  for( i = 0; i < 4 ; i++){
     Ponto p1;
-    p1.x = p.x;
-    p1.y = p.y-1;
-    empilha(pilha_vizinhos, &p1);
-  }
-
-  // cima
-  if (p.x-1 >= 0) {
-    Ponto p2;
-    p2.x = p.x-1;
-    p2.y = p.y;
-    empilha(pilha_vizinhos, &p2);
-  }
-
-  // direita
-  if (p.y+1 <= m.col) {
-    Ponto p3;
-    p3.x = p.x;
-    p3.y = p.y+1;
-    empilha(pilha_vizinhos, &p3);
-  }
-
-  // baixo
-  if (p.x+1 <= m.lin) {
-    Ponto p4;
-    p4.x = p.x+1;
-    p4.y = p.y;
-    empilha(pilha_vizinhos, &p4);
+    p1.x = p.x+dx[i];
+    p1.y = p.y+dy[i];
+    if( valida_ponto( p1, m.lin, m.col ) && m.dados[(int) p1.x][(int) p1.y] == cor_orig)
+      empilha(pilha_principal, &p1);
   }
 
 }
 
 void cria_novo_arquivo_matriz(Matriz m) {
     FILE *f = fopen("saida.txt", "w");
-    // [TODO] Escrever no arquivo a nova matriz
     
     fprintf(f, "%4d %4d\n", m.lin, m.col);
     int i, j;
@@ -81,12 +57,15 @@ int main(int argc, char *argv[]) {
   PilhaGenerica p1;
 	inicializa_pilha( &p1, 20, sizeof( Ponto ) );
 
-
-  int nova_cor = 5;
   Ponto coord;
+  int nova_cor;
 
-  coord.x = 3;
-  coord.y = 1;
+  printf("Qual pixel deseja mudar? (x,y) \n");
+  scanf("%f", &coord.x);
+  scanf("%f", &coord.y);
+
+  printf("Que valor deseja para a cor do pixel? \n");
+  scanf("%d", &nova_cor);
 
   int cor_orig = m.dados[(int)coord.x][(int)coord.y];
   
@@ -95,26 +74,12 @@ int main(int argc, char *argv[]) {
   while (pilha_vazia(p1)==0)
   {
     desempilha(&p1, &coord);
+
     if (m.dados[(int)coord.x][(int)coord.y] != nova_cor) {
       set_valor(&m, (int)coord.x, (int)coord.y, nova_cor);
       
-      PilhaGenerica pilha_vizinhos;
-	    inicializa_pilha( &pilha_vizinhos, 4, sizeof( Ponto ) );
-      busca_vizinhos(coord, &pilha_vizinhos, m);
+      busca_vizinhos(coord, &p1, m, cor_orig);
 
-      while (pilha_vazia(pilha_vizinhos)==0)
-      {
-        Ponto vizinho;
-        le_topo(pilha_vizinhos, &vizinho);
-
-        if (m.dados[(int) vizinho.x][(int) vizinho.y] == cor_orig) {
-          empilha(&p1, &vizinho);
-        }
-        desempilha(&pilha_vizinhos, &vizinho);
-      }
-      
-
-      desaloca_pilha( &pilha_vizinhos);
     }
   }
   
