@@ -64,10 +64,10 @@ int main(int argc, char *argv[]) {
 	printf("Qual pixel deseja mudar? (x, y) \n");
 	scanf("%f", &coord.x);
 	scanf("%f", &coord.y);
-	if(coord.x > m.lin || coord.y > m.col){
-		prinft("O ponto escolhido deve estar dentro dos limites da matriz (%dx%d) \n", &m.lin, &m.col);
+	if(valida_ponto(coord, m.lin, m.col)==0){
+		printf("O ponto escolhido deve estar dentro dos limites da matriz (%dx%d) \n", m.lin, m.col);
 	}
-  }while(coord.x <= m.lin && coord.y <= m.col);
+  }while(valida_ponto(coord, m.lin, m.col)==0);
 	
 
   printf("Que valor deseja para a cor do pixel? \n");
